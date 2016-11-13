@@ -1,5 +1,8 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
+
+import { Map } from 'immutable';
+
 @Component({
   selector: 'ng-firebase-view-layer',
   templateUrl: './ng-firebase-view-layer.component.html',
@@ -8,7 +11,7 @@ import { NgFirebaseViewService } from '../ng-firebase-view.service';
 export class NgFirebaseViewLayerComponent implements OnInit, OnChanges {
 
 
-  @Input('item') item;
+  @Input('item') item: Map<any, any>;
   @Input('path') path = "";
 
   private itemKeys;
@@ -26,17 +29,16 @@ export class NgFirebaseViewLayerComponent implements OnInit, OnChanges {
   }
 
   handleData() {
-    this.itemKeys = Object.keys(this.item);
+    this.itemKeys = this.item.keySeq().toArray();
     if(this.ngFVS.VISIBLE_NODES[this.path]) this.isNextLayerVisible = true;
   }
 
   hasObjectChildren(itemKey) {
-    return this.isNextLayerVisible && typeof this.item[itemKey] == "object";
+    return this.isNextLayerVisible && typeof this.item.get(itemKey) == "object";
   }
 
   hasChildrenToDisplay(itemKey) {
-    console.log(itemKey);
-    return !!this.item[itemKey] && typeof this.item[itemKey] != "object";
+    return typeof this.item.toJS()[itemKey] !== 'object';
   }
 
   toggle() {

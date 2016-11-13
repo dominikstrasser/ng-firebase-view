@@ -7,7 +7,7 @@ export class NgFirebaseViewService {
   public VISIBLE_NODES = {};
 
   public referencePath = null;
-
+  public changelogListener = new EventEmitter();
   public referenceListener = new EventEmitter();
 
   constructor() {
@@ -26,7 +26,7 @@ export class NgFirebaseViewService {
   }
 
   init(referencePath: string) {
-    console.log('intit');
+    console.log('init');
     this.referencePath = referencePath;
 
     this.referenceListener.emit(this.referencePath);

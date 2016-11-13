@@ -2,9 +2,9 @@
   <div class="ng-firebase-view-layer__wrapper" *ngFor="let itemKey of itemKeys">
     <div class="ng-firebase-view-layer__text" (click)="toggle()">
       <strong>{{itemKey}}:</strong>
-      <span *ngIf="hasChildrenToDisplay(itemKey)">{{item[itemKey]}}</span>
+      <span *ngIf="hasChildrenToDisplay(itemKey)">{{item.get(itemKey) | json}}</span>
     </div>
-    <ng-firebase-view-layer *ngIf=hasObjectChildren(itemKey) [item]=item[itemKey] [path]="getCurrentPath(itemKey)"></ng-firebase-view-layer>
+    <ng-firebase-view-layer *ngIf=hasObjectChildren(itemKey) [item]=item.get(itemKey) [path]="getCurrentPath(itemKey)"></ng-firebase-view-layer>
 
   </div>
 </div>

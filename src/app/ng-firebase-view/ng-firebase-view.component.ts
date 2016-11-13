@@ -1,6 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 
 import * as firebase from 'firebase';
+import { fromJS } from 'immutable';
+var diff = require('immutablediff');
+
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
 
 
@@ -14,6 +17,7 @@ export class NgFirebaseViewComponent implements OnInit {
   private databaseRef: firebase.database.Reference = null;
   private TEMP_REF = null;
   public dataTree = null;
+  public dataDiff = null;
   constructor(
     private zone: NgZone,
     private ngFVS: NgFirebaseViewService
@@ -22,18 +26,26 @@ export class NgFirebaseViewComponent implements OnInit {
     this.initFirebase();
     this.TEMP_REF = this.ngFVS.referencePath;
     this.ngFVS.referenceListener.subscribe(data => {
-      console.log(data);
+
     })
     this.initReference();
-
     this.initSubscription();
+
+    setTimeout(() => {
+      this.databaseRef.child('app').child('test123').set('test');
+    }, 4000);
+
   }
 
 
   private initSubscription() {
     this.databaseRef.on('value', snap => {
       this.zone.run(() => {
-        this.dataTree = snap.val();
+        if (this.dataTree) {
+          this.dataDiff = diff(this.dataTree, fromJS(snap.val()));
+          this.ngFVS.changelogListener.emit(this.dataDiff);
+        }
+        this.dataTree = fromJS(snap.val())
       });
     });
   }

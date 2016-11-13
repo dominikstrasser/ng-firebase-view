@@ -1,0 +1,8 @@
+<div class="ng-firebase-view-changelog">
+  <h2>changelog</h2>
+  <div *ngFor="let item of items">
+    <h4>{{item.op}}</h4>
+    <h4>{{item.path}}</h4>
+    <span>{{item.value | json}}</span>
+  </div>
+</div>
