@@ -35,6 +35,7 @@ export class NgFirebaseViewLayerComponent implements OnInit, OnChanges {
   }
 
   hasChildrenToDisplay(itemKey) {
+    console.log(itemKey);
     return !!this.item[itemKey] && typeof this.item[itemKey] != "object";
   }
 

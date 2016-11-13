@@ -2,24 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { NgFirebaseViewComponent } from './ng-firebase-view/ng-firebase-view.component';
-import { NgFirebaseViewLayerComponent } from './ng-firebase-view-layer/ng-firebase-view-layer.component';
-import { NgFirebaseViewService } from './ng-firebase-view.service';
+
+import { NgFirebaseViewModule } from './ng-firebase-view.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NgFirebaseViewComponent,
-    NgFirebaseViewLayerComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    NgFirebaseViewModule
   ],
-  providers: [NgFirebaseViewService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

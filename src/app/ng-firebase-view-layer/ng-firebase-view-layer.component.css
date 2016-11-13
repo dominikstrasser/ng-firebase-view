@@ -1,0 +1,32 @@
+.ng-firebase-view-layer__wrapper {
+  margin: 0px;
+  padding: 0px;
+}
+
+.ng-firebase-view-layer__wrapper .ng-firebase-view-layer__wrapper {
+  margin-left: 30px;
+}
+
+.ng-firebase-view-layer__text {
+  /*background: rgba(255,255,0,0.1);*/
+  margin-bottom: -1px;
+  cursor: pointer;
+  background-image: url("assets/line.png");
+  background-size: 25px 25px;
+  background-position: left center;
+  background-repeat: no-repeat;
+  line-height: 25px;
+  padding-left: 30px;
+}
+
+.ng-firebase-view-layer__text {
+  cursor: pointer;
+}
+
+.ng-firebase-view-layer__text strong {
+  cursor: text;
+}
+
+.ng-firebase-view-layer__text:hover {
+  background-color: rgba(255,255,0,0.3);
+}

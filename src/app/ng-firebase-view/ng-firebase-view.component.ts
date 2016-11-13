@@ -1,6 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 
 import * as firebase from 'firebase';
+import { NgFirebaseViewService } from '../ng-firebase-view.service';
+
 
 @Component({
   selector: 'ng-firebase-view',
@@ -10,14 +12,20 @@ import * as firebase from 'firebase';
 export class NgFirebaseViewComponent implements OnInit {
 
   private databaseRef: firebase.database.Reference = null;
-  private TEMP_REF = 'mock-2';
+  private TEMP_REF = null;
   public dataTree = null;
   constructor(
-    private zone: NgZone
+    private zone: NgZone,
+    private ngFVS: NgFirebaseViewService
   ) {
 
     this.initFirebase();
+    this.TEMP_REF = this.ngFVS.referencePath;
+    this.ngFVS.referenceListener.subscribe(data => {
+      console.log(data);
+    })
     this.initReference();
+
     this.initSubscription();
   }
 
