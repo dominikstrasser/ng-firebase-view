@@ -1,68 +1,47 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-
-import * as firebase from 'firebase';
-import { fromJS } from 'immutable';
-var diff = require('immutablediff');
+import { Component, OnInit } from '@angular/core';
 
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
 
-
+import { Map, List } from 'immutable';
 @Component({
-  selector: 'ng-firebase-view',
-  templateUrl: './ng-firebase-view.component.html',
-  styleUrls: ['./ng-firebase-view.component.css']
+    selector: 'ng-firebase-view',
+    templateUrl: './ng-firebase-view.component.html',
+    styleUrls: ['./ng-firebase-view.component.scss']
 })
 export class NgFirebaseViewComponent implements OnInit {
+    public isDataVisible = true;
+    public isChangelogVisible = false;
 
-  private databaseRef: firebase.database.Reference = null;
-  private TEMP_REF = null;
-  public dataTree = null;
-  public dataDiff = null;
-  constructor(
-    private zone: NgZone,
-    private ngFVS: NgFirebaseViewService
-  ) {
+    public dataTree: Map<any, any> = null;
+    public changelog: List<any> = null;
 
-    this.initFirebase();
-    this.TEMP_REF = this.ngFVS.referencePath;
-    this.ngFVS.referenceListener.subscribe(data => {
+    constructor(
+        private ngFVS: NgFirebaseViewService
+    ) {
+        this.dataTree = ngFVS.dataTree;
+        this.ngFVS.dataTreeListener.subscribe(data => {
+            this.dataTree = data;
+        });
 
-    })
-    this.initReference();
-    this.initSubscription();
-
-    setTimeout(() => {
-      this.databaseRef.child('app').child('test123').set('test');
-    }, 4000);
-
-  }
+        this.changelog = ngFVS.changelog;
+        this.ngFVS.changelogListener.subscribe(data => {
+            this.changelog = data;
+            console.log(this.changelog);
+        });
+    }
 
 
-  private initSubscription() {
-    this.databaseRef.on('value', snap => {
-      this.zone.run(() => {
-        if (this.dataTree) {
-          this.dataDiff = diff(this.dataTree, fromJS(snap.val()));
-          this.ngFVS.changelogListener.emit(this.dataDiff);
-        }
-        this.dataTree = fromJS(snap.val())
-      });
-    });
-  }
+    ngOnInit() {
+    }
 
+    showData() {
+        this.isDataVisible = true;
+        this.isChangelogVisible = false;
+    }
 
-  private initReference() {
-    this.databaseRef = firebase.database().ref(this.TEMP_REF);
-  }
-
-
-  private initFirebase() {
-    firebase.initializeApp({
-      databaseURL: "ws://127.0.1:5000",
-    });
-  }
-
-  ngOnInit() {
-  }
+    showChangelog() {
+        this.isDataVisible = false;
+        this.isChangelogVisible = true;
+    }
 
 }

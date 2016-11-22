@@ -1,0 +1,6 @@
+
+.ng-firebase-view-changelog__value {
+  height: 100px;
+  overflow: scroll;
+  display: block;
+}

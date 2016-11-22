@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, NgZone } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
 
 import { List } from 'immutable';
@@ -11,20 +11,11 @@ import { List } from 'immutable';
 export class NgFirebaseViewChangelogComponent implements OnInit, OnChanges {
 
 
-  public items: List<any> = List();
+  @Input('changelog') changelog: List<any> = List();
 
   constructor(
-    private ngFVS: NgFirebaseViewService,
-    private zone: NgZone
-  ) {
-    ngFVS.changelogListener.subscribe(data => {
-      this.zone.run(() => {
-        this.items = this.items.push(...data.toJS());
-      });
-
-
-    });
-  }
+    private ngFVS: NgFirebaseViewService
+  ) {}
 
   ngOnInit() {
     this.handleData();
@@ -35,7 +26,7 @@ export class NgFirebaseViewChangelogComponent implements OnInit, OnChanges {
   }
 
   handleData() {
-
+    console.log(this.changelog);
   }
 
 }

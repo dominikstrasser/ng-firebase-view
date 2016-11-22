@@ -1,8 +1,10 @@
 <div class="ng-firebase-view-changelog">
   <h2>changelog</h2>
-  <div *ngFor="let item of items">
-    <h4>{{item.op}}</h4>
-    <h4>{{item.path}}</h4>
-    <span>{{item.value | json}}</span>
+  <div *ngFor="let group of changelog">
+    <h3>group</h3>
+    <div *ngFor="let item of group">
+      <h4> <span>{{item.op}}</span> - <span>{{item.path}}</span></h4>
+      <code class="ng-firebase-view-changelog__value">{{item.value | json}}</code>
+    </div>
   </div>
 </div>

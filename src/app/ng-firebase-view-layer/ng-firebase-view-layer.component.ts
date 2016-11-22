@@ -11,7 +11,7 @@ import { Map } from 'immutable';
 export class NgFirebaseViewLayerComponent implements OnInit, OnChanges {
 
 
-  @Input('item') item: Map<any, any>;
+  @Input('dataTree') dataTree: Map<any, any>;
   @Input('path') path = "";
 
   private itemKeys;
@@ -29,16 +29,16 @@ export class NgFirebaseViewLayerComponent implements OnInit, OnChanges {
   }
 
   handleData() {
-    this.itemKeys = this.item.keySeq().toArray();
+    this.itemKeys = this.dataTree.keySeq().toArray();
     if(this.ngFVS.VISIBLE_NODES[this.path]) this.isNextLayerVisible = true;
   }
 
   hasObjectChildren(itemKey) {
-    return this.isNextLayerVisible && typeof this.item.get(itemKey) == "object";
+    return this.isNextLayerVisible && typeof this.dataTree.get(itemKey) == "object";
   }
 
   hasChildrenToDisplay(itemKey) {
-    return typeof this.item.toJS()[itemKey] !== 'object';
+    return typeof this.dataTree.toJS()[itemKey] !== 'object';
   }
 
   toggle() {

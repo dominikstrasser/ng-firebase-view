@@ -9,8 +9,10 @@ import { NgFirebaseViewService } from './ng-firebase-view.service';
 })
 export class AppComponent {
   title = 'app works!';
-
+  public isDescriptionVisible = false;
   constructor(private ngFVS:NgFirebaseViewService) {
-    this.ngFVS.init('mock-1');
+    this.ngFVS.init('test-1');
   }
+
+
 }
