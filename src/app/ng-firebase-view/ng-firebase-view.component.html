@@ -1,10 +1,32 @@
+<div class="ng-fireabse-view">
+
+  <md-toolbar [color]="accent">
+    <span>ng-firebase-toolbar</span>
+    <md-toolbar-row>
+      <button md-raised-button [color]="isActiveButton('data')" (click)="showData()">Data</button>
+      <button md-raised-button [color]="isActiveButton('changelog')" (click)="showChangelog()">Changelog</button>
+    </md-toolbar-row>
+  </md-toolbar>
+
+  <div class="ng-firebase-view__content">
+    <ng-firebase-view-layer *ngIf="dataTree && isDataVisible" [dataTree]=dataTree></ng-firebase-view-layer>
+    <ng-firebase-view-changelog *ngIf="isChangelogVisible" [changelog]=changelog></ng-firebase-view-changelog>
+  </div>
+
+</div>
+
+<!--
+
 <div class="ng-firebase-view">
   <div class="ng-firebase-view__navbar">
-    <button (click)="showData()">Data</button>
-    <button (click)="showChangelog()">Changelog</button>
+    <button md-button (click)="showData()">Data</button>
+    <button md-button (click)="showChangelog()">Changelog</button>
+
   </div>
   <div class="ng-firebase-view__content">
     <ng-firebase-view-layer *ngIf="dataTree && isDataVisible" [dataTree]=dataTree></ng-firebase-view-layer>
     <ng-firebase-view-changelog *ngIf="isChangelogVisible" [changelog]=changelog></ng-firebase-view-changelog>
   </div>
 </div>
+
+-->

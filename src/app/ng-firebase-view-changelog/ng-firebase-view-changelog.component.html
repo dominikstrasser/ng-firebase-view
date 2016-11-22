@@ -1,10 +1,24 @@
 <div class="ng-firebase-view-changelog">
   <h2>changelog</h2>
-  <div *ngFor="let group of changelog">
-    <h3>group</h3>
-    <div *ngFor="let item of group">
-      <h4> <span>{{item.op}}</span> - <span>{{item.path}}</span></h4>
-      <code class="ng-firebase-view-changelog__value">{{item.value | json}}</code>
+  <md-card *ngFor="let group of changelog">
+    <div class="ng-firebase-view-changelog__group">
+      <md-card-title>group</md-card-title>
+      <md-card-subtitle>
+        {{group.date}}
+      </md-card-subtitle>
+      <button md-raised-button (click)="toggle(group)">Show Changes</button>
+      <md-card-content>
+        <div class="ng-firebase-view-changelog__item" *ngFor="let item of group.items">
+          <div>
+            <h4>
+              <span>{{item.op}}</span> - <span>{{item.path}}</span>
+            </h4>
+            <pre *ngIf="isVisible(group)" class="ng-firebase-view-changelog__value">
+              {{getJsonString(item.value)}}
+            </pre>
+          </div>
+        </div>
+      </md-card-content>
     </div>
-  </div>
+  </md-card>
 </div>

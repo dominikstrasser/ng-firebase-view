@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/core/theming/prebuilt/pink-bluegrey.scss';
+
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/core/theming/all-theme';
+
+
+// Include non-theme styles for core.
+@include md-core();
+
+// Define a theme.
+$primary: md-palette($md-purple, 700, 500, 800);
+$accent:  md-palette($md-green, A200, A100, A400);
+
+$theme: md-light-theme($primary, $accent);
+
+// Include all theme styles for the components.
+@include angular-material-theme($theme);

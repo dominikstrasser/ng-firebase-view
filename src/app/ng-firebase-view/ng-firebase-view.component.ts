@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
 
@@ -26,7 +26,7 @@ export class NgFirebaseViewComponent implements OnInit {
         this.changelog = ngFVS.changelog;
         this.ngFVS.changelogListener.subscribe(data => {
             this.changelog = data;
-            console.log(this.changelog);
+            // console.log(this.changelog.toJS());
         });
     }
 
@@ -42,6 +42,11 @@ export class NgFirebaseViewComponent implements OnInit {
     showChangelog() {
         this.isDataVisible = false;
         this.isChangelogVisible = true;
+    }
+
+    isActiveButton(buttonType) {
+        if(buttonType == 'data' && this.isDataVisible) return 'primary'
+        if(buttonType == 'changelog' && this.isChangelogVisible) return 'primary'
     }
 
 }

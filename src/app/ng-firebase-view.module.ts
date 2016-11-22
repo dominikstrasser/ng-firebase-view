@@ -6,6 +6,8 @@ import { NgFirebaseViewChangelogComponent } from './ng-firebase-view-changelog/n
 import { NgFirebaseViewLayerComponent } from './ng-firebase-view-layer/ng-firebase-view-layer.component';
 import { NgFirebaseViewService } from './ng-firebase-view.service';
 
+import { MaterialModule } from '@angular/material';
+
 @NgModule({
   declarations: [
     NgFirebaseViewComponent,
@@ -13,7 +15,8 @@ import { NgFirebaseViewService } from './ng-firebase-view.service';
     NgFirebaseViewChangelogComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule.forRoot(),
   ],
   exports: [NgFirebaseViewComponent, NgFirebaseViewChangelogComponent],
   providers: [NgFirebaseViewService]

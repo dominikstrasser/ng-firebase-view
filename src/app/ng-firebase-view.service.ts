@@ -4,20 +4,9 @@ import { Subject } from 'rxjs';
 import * as firebase from 'firebase';
 import { fromJS, Map, List } from 'immutable';
 var diff = require('immutablediff');
+import { ChangelogItemFactory, ChangelogItemRecord } from './models/changelogItem.model';
+import { ChangelogGroupFactory, ChangelogGroupRecord, ChangelogGroup } from './models/changelogGroup.model';
 
-
-
-
-interface ChangelogGroup {
-  date: Date
-  items: ChangeLogItem[]
-}
-
-interface ChangeLogItem {
-  op: string,
-  path: string,
-  value: Object
-}
 
 @Injectable()
 export class NgFirebaseViewService {
@@ -32,7 +21,9 @@ export class NgFirebaseViewService {
   private databaseRef: firebase.database.Reference = null;
   private TEMP_REF = 'mock-1';
   public dataTree: Map<any, any> = Map();
-  public changelog: List<ChangelogGroup> = <any>List();
+  public changelog: List<ChangelogGroupRecord> = <any>List();
+
+  public visibleChangelogIds = {};
 
   constructor(
     private zone: NgZone
@@ -64,13 +55,35 @@ export class NgFirebaseViewService {
       this.zone.run(() => {
         if (this.dataTree) {
           const dataTreeDiff = diff(this.dataTree, fromJS(snap.val()));
-          this.changelog = this.changelog.push(dataTreeDiff.toJS());
+          this.addToChangelog(dataTreeDiff);
           this.changelogListener.emit(this.changelog);
         }
         this.dataTree = fromJS(snap.val());
         this.dataTreeListener.emit(this.dataTree);
       });
     });
+  }
+
+  private addToChangelog(dataTreeDiff: List<ChangelogItemRecord>) {
+    const items: List<ChangelogItemRecord> = dataTreeDiff.map(cl => ChangelogItemFactory(cl)).toList();
+    const lastItem = this.changelog.last();
+
+    if (lastItem && (new Date().getTime() - lastItem.date) < 3000) {
+      const newItems = this.changelog.last().items.concat(items);
+
+      this.changelog = this.changelog.updateIn([this.changelog.size - 1, 'items'], (v) => {
+        return newItems;
+      });
+      
+    } else {
+      const group: ChangelogGroup = {
+        date: new Date().getTime(),
+        items: items
+      }
+      const groupRecord = ChangelogGroupFactory(group);
+      this.changelog = this.changelog.push(groupRecord);
+    }
+
   }
 
 

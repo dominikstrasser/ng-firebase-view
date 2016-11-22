@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { NgFirebaseViewService } from '../ng-firebase-view.service';
-
 import { List } from 'immutable';
+import { ChangelogGroupRecord } from '../models/changelogGroup.model';
 
 @Component({
   selector: 'ng-firebase-view-changelog',
@@ -15,7 +15,7 @@ export class NgFirebaseViewChangelogComponent implements OnInit, OnChanges {
 
   constructor(
     private ngFVS: NgFirebaseViewService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.handleData();
@@ -26,7 +26,25 @@ export class NgFirebaseViewChangelogComponent implements OnInit, OnChanges {
   }
 
   handleData() {
-    console.log(this.changelog);
+    // console.log(this.changelog);
+
   }
+
+  toggle(item: ChangelogGroupRecord) {
+    //const hashCode = item.hashCode();
+    const id = item.date;
+    this.ngFVS.visibleChangelogIds[id] = !this.ngFVS.visibleChangelogIds[id];
+  }
+
+  isVisible(item: ChangelogGroupRecord) {
+    //const hashCode = item.hashCode();
+    const id = item.date;
+    return this.ngFVS.visibleChangelogIds[id];
+  }
+
+  getJsonString(data) {
+    return JSON.stringify(data, undefined, 2);
+  }
+
 
 }
